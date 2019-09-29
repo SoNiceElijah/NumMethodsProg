@@ -37,12 +37,14 @@ namespace nm
             mainChart.ChartAreas[0].AxisY.Minimum = 0;
             mainChart.ChartAreas[0].AxisY.Maximum = 10;
 
+            mainChart.Legends.Clear();
             mainChart.Series.Clear();
             // Добавляем новый график
             var ser = mainChart.Series.Add("Diff");
             ser.ChartType = SeriesChartType.Line;
 
             chart1.Series.Clear();
+            chart1.Legends.Clear();
             var sh = chart1.Series.Add("h");
             sh.ChartType = SeriesChartType.Line;
 
@@ -76,8 +78,18 @@ namespace nm
             {
                 double step = m.Step;
                 Dot p = m.nextStep(out double contr);
+                if (p.Y < 1e-8)
+                    p.Y = 0;
+                if (p.Y > 10e+20)
+                    break;
+                if (p.X < 1e-8)
+                    p.X = 0;
+                if (p.X > 10e+20)
+                    break;
                 mainChart.Series["Diff"].Points.AddXY(p.X,p.Y);
                 chart1.Series["h"].Points.AddXY(i,step);
+
+                Console.WriteLine(p.X + " " +p.Y);
 
                 this.dataGridView1.Rows.Add(i + "",p.X, step, p.Y, contr, p.Y - contr);
             }
