@@ -29,7 +29,7 @@ namespace core
         /// <param name="x0">Точка x0</param>
         /// <param name="u0">Точка u0</param>
         /// <param name="s">Первоначальный шаг</param>
-        public Method(Func f, double x0, double u0, double s, double e = 1e-5)
+        public Method(Func f, double x0, double u0, double s, double e = 1e-7)
         {
             Function = f;
             point = new Dot()
@@ -79,17 +79,23 @@ namespace core
             upV = mes.Y;
 
             double s = (mes.Y - next.Y) / (15);
-            if (s > eps)
+            if (Math.Abs(s) >= eps)
             {
-                step /= 2;            
+                step /= 2;
+                return nextStep(out upV);
             }
-            if (s < eps / 16)
-                step *= 2;
+            if (Math.Abs(s) <= eps / 16)
+            {
+                if (step <= 1e+100)
+                    step *= 2;
+
+                //return nextStep(out upV);
+            }
 
 
             double e = 16 * s;
 
-            next.Y = next.Y + e;
+            next.Y = next.Y - e;
             point = next;
             return point;
         }

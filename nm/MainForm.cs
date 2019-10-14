@@ -34,8 +34,12 @@ namespace nm
             mainChart.ChartAreas[0].AxisX.Minimum = 0;
             mainChart.ChartAreas[0].AxisX.Maximum = 10;
 
+            mainChart.ChartAreas[0].AxisX.Title = "t (время)";
+
             mainChart.ChartAreas[0].AxisY.Minimum = 0;
             mainChart.ChartAreas[0].AxisY.Maximum = 10;
+
+            mainChart.ChartAreas[0].AxisY.Title = "I (ток)";
 
             mainChart.Legends.Clear();
             mainChart.Series.Clear();
@@ -45,11 +49,15 @@ namespace nm
 
             chart1.Series.Clear();
             chart1.Legends.Clear();
+
             var sh = chart1.Series.Add("h");
             sh.ChartType = SeriesChartType.Line;
 
             ser.Points.AddXY(0, 0);
             ser.Points.AddXY(10, 10);
+
+            chart1.ChartAreas[0].AxisX.Minimum = 0;
+            chart1.ChartAreas[0].AxisX.Title = "Шаги";
 
             this.dataGridView1.Columns.Add("i", "i");
             this.dataGridView1.Columns.Add("Xi", "Xi");
@@ -76,15 +84,19 @@ namespace nm
 
             foreach (var i in Enumerable.Range(0,n))
             {
+                int sss = 0;
+                if (i == 30)
+                    sss = 2;
+
                 double step = m.Step;
                 Dot p = m.nextStep(out double contr);
-                if (p.Y < 1e-8)
+                if (Math.Abs(p.Y) < 1e-8)
                     p.Y = 0;
-                if (p.Y > 10e+20)
+                if (Math.Abs(p.Y) > 10e+20)
                     break;
-                if (p.X < 1e-8)
+                if (Math.Abs(p.X) < 1e-8)
                     p.X = 0;
-                if (p.X > 10e+20)
+                if (Math.Abs(p.X) > 10e+20)
                     break;
                 mainChart.Series["Diff"].Points.AddXY(p.X,p.Y);
                 chart1.Series["h"].Points.AddXY(i,step);
