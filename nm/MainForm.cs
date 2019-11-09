@@ -46,6 +46,13 @@ namespace nm
             // Добавляем новый график
             var ser = mainChart.Series.Add("Diff");
             ser.ChartType = SeriesChartType.Line;
+            ser.Color = Color.FromArgb(255, Color.Red);
+            ser.BorderWidth = 1;
+
+            var real = mainChart.Series.Add("Real");
+            real.ChartType = SeriesChartType.Line;
+            real.Color = Color.FromArgb(20,Color.Green);
+            real.BorderWidth = 3;
 
             chart1.Series.Clear();
             chart1.Legends.Clear();
@@ -78,16 +85,14 @@ namespace nm
 
             Method m = new Method((x,y) =>  (- r*y/l) + (v/l), 0, i0, h);
 
+
             mainChart.Series["Diff"].Points.Clear();
+            mainChart.Series["Real"].Points.Clear();
             chart1.Series["h"].Points.Clear();
             this.dataGridView1.Rows.Clear();
 
             foreach (var i in Enumerable.Range(0,n))
             {
-                int sss = 0;
-                if (i == 30)
-                    sss = 2;
-
                 double step = m.Step;
                 Dot p = m.nextStep(out double contr);
                 if (Math.Abs(p.Y) < 1e-8)
@@ -105,6 +110,31 @@ namespace nm
 
                 this.dataGridView1.Rows.Add(i + "",p.X, step, p.Y, contr, p.Y - contr);
             }
+
+           // foreach (var x in Enumerable.Range(0, 1000).Select(u => (double)u / 100))
+           // {
+           //     var y = (v / r) * (1 - Math.Exp((-r / l) * x)) + i0 * Math.Exp((-r / l) * x);
+           //     mainChart.Series["Real"].Points.AddXY(x, y);
+           // }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            double l = Convert.ToDouble(lTextBox.Text.Replace('.', ','));
+            double r = Convert.ToDouble(rTextBox.Text.Replace('.', ','));
+            double v = Convert.ToDouble(vTextBox.Text.Replace('.', ','));
+            double i0 = Convert.ToDouble(iTextBox.Text.Replace('.', ','));
+            double h = Convert.ToDouble(hTextBox.Text.Replace('.', ','));
+            int n = Convert.ToInt32(nTextBox.Text.Replace('.', ','));
+
+            mainChart.Series["Real"].Points.Clear();
+
+            foreach (var x in Enumerable.Range(0, 1000).Select(u => (double)u / 100))
+            {
+               var y = (v / r) * (1 - Math.Exp((-r / l) * x)) + i0 * Math.Exp((-r / l) * x);
+               mainChart.Series["Real"].Points.AddXY(x, y);
+            }
         }
     }
+  
 }
