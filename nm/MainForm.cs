@@ -15,10 +15,10 @@ using System.Windows.Forms.DataVisualization.Charting;
 namespace nm
 {
     public partial class MainForm : Form
-    {  
-
+    {
+        int nums = 0;
         Dot[] dots {  set; get; }
-
+        DotForm info;
 
         public MainForm()
         {
@@ -66,12 +66,6 @@ namespace nm
             chart1.ChartAreas[0].AxisX.Minimum = 0;
             chart1.ChartAreas[0].AxisX.Title = "Шаги";
 
-            this.dataGridView1.Columns.Add("i", "i");
-            this.dataGridView1.Columns.Add("Xi", "Xi");
-            this.dataGridView1.Columns.Add("Hi", "Hi");
-            this.dataGridView1.Columns.Add("Vi", "Vi");
-            this.dataGridView1.Columns.Add("V^i", "V^i");
-            this.dataGridView1.Columns.Add("V^i-Vi", "V^i-Vi");
         }
 
         private void runButton_Click(object sender, EventArgs e)
@@ -89,7 +83,11 @@ namespace nm
             mainChart.Series["Diff"].Points.Clear();
             mainChart.Series["Real"].Points.Clear();
             chart1.Series["h"].Points.Clear();
-            this.dataGridView1.Rows.Clear();
+
+            ++nums;
+            info = new DotForm();
+            info.label1.Text = "Запуск номер " + nums;
+            info.param.Text = $"L: {l}, R: {r}, V: {v}, I(0): {i0}, H: {h}, N: {n}";
 
             foreach (var i in Enumerable.Range(0,n))
             {
@@ -108,7 +106,8 @@ namespace nm
 
                 Console.WriteLine(p.X + " " +p.Y);
 
-                this.dataGridView1.Rows.Add(i + "",p.X, step, p.Y, contr, p.Y - contr);
+                info.dataGridView1.Rows.Add(i + "",p.X, step, p.Y, contr, p.Y - contr);
+                info.Show();
             }
 
            // foreach (var x in Enumerable.Range(0, 1000).Select(u => (double)u / 100))
