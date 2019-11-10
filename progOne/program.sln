@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nm", "nm.csproj", "{F8325B93-DAE8-4DA5-9198-86FA76F6155D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "form", "form\form.csproj", "{F8325B93-DAE8-4DA5-9198-86FA76F6155D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core", "..\core\core.csproj", "{191C0916-B60C-4955-B833-A5C923F5A5D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core", "core\core.csproj", "{191C0916-B60C-4955-B833-A5C923F5A5D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
