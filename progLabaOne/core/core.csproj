@@ -41,8 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Method.cs" />
+    <Compile Include="FirstMethod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecondMethod.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

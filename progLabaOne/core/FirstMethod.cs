@@ -12,7 +12,7 @@ namespace core
         public double Y { get; set; }      
     }
 
-    public class Method
+    public class FirstMethod
     {
         public delegate double Func(double x, double u);
 
@@ -20,6 +20,9 @@ namespace core
         Dot point;
         double step;
         double eps;
+
+        public int C1 { private set; get; } = 0;
+        public int C2 { private set; get; } = 0;
 
         bool control;
         public double Step { get => step; }
@@ -31,7 +34,7 @@ namespace core
         /// <param name="x0">Точка x0</param>
         /// <param name="u0">Точка u0</param>
         /// <param name="s">Первоначальный шаг</param>
-        public Method(Func f, double x0, double u0, double s, double e, bool ctrl)
+        public FirstMethod(Func f, double x0, double u0, double s, double e, bool ctrl)
         {
             Function = f;
             point = new Dot()
@@ -46,7 +49,7 @@ namespace core
             control = ctrl;
         }
 
-        public Dot nextStep(out double upV)
+        public Dot nextStep(out double upV, out double param)
         {
             Dot next = new Dot();
             double h = step;
@@ -82,24 +85,31 @@ namespace core
 
             upV = mes.Y;
 
+            param = 0;
             if (control)
             {
 
                 double s = (mes.Y - next.Y) / (15);
                 if (Math.Abs(s) >= eps)
                 {
+                    C1++;
                     step /= 2;
-                    return nextStep(out upV);
+                    return nextStep(out upV, out param);
                 }
                 if (Math.Abs(s) <= eps / 16)
                 {
                     if (step <= 1e+100)
+                    {
+                        C2++;
                         step *= 2;
+                    }
 
+                    
                     //return nextStep(out upV);
                 }
 
                 double e = 16 * s;
+                param = e;
 
                 next.Y = next.Y - e;
             }

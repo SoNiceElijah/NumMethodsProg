@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.rButton1 = new System.Windows.Forms.Button();
             this.mainChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -80,7 +80,7 @@
             this.label22 = new System.Windows.Forms.Label();
             this.aTextBox3 = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
-            this.u01textBox3 = new System.Windows.Forms.TextBox();
+            this.u01TextBox3 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.epsTextBox3 = new System.Windows.Forms.TextBox();
@@ -108,6 +108,9 @@
             this.label26 = new System.Windows.Forms.Label();
             this.maxYTB = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.label27 = new System.Windows.Forms.Label();
+            this.bTextBox3 = new System.Windows.Forms.TextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.mainChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -140,32 +143,32 @@
             // 
             // mainChart
             // 
-            chartArea7.Name = "ChartArea1";
-            this.mainChart.ChartAreas.Add(chartArea7);
-            legend7.Name = "Legend1";
-            this.mainChart.Legends.Add(legend7);
+            chartArea3.Name = "ChartArea1";
+            this.mainChart.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.mainChart.Legends.Add(legend3);
             this.mainChart.Location = new System.Drawing.Point(6, 250);
             this.mainChart.Name = "mainChart";
-            series7.ChartArea = "ChartArea1";
-            series7.Legend = "Legend1";
-            series7.Name = "Series1";
-            this.mainChart.Series.Add(series7);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.mainChart.Series.Add(series3);
             this.mainChart.Size = new System.Drawing.Size(706, 402);
             this.mainChart.TabIndex = 12;
             this.mainChart.Text = "chart1";
             // 
             // chart1
             // 
-            chartArea8.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea8);
-            legend8.Name = "Legend1";
-            this.chart1.Legends.Add(legend8);
+            chartArea4.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chart1.Legends.Add(legend4);
             this.chart1.Location = new System.Drawing.Point(782, 353);
             this.chart1.Name = "chart1";
-            series8.ChartArea = "ChartArea1";
-            series8.Legend = "Legend1";
-            series8.Name = "Series1";
-            this.chart1.Series.Add(series8);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.chart1.Series.Add(series4);
             this.chart1.Size = new System.Drawing.Size(0, 195);
             this.chart1.TabIndex = 15;
             this.chart1.Text = "chart1";
@@ -548,10 +551,13 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.comboBox1);
+            this.groupBox6.Controls.Add(this.bTextBox3);
+            this.groupBox6.Controls.Add(this.label27);
             this.groupBox6.Controls.Add(this.label22);
             this.groupBox6.Controls.Add(this.aTextBox3);
             this.groupBox6.Controls.Add(this.label21);
-            this.groupBox6.Controls.Add(this.u01textBox3);
+            this.groupBox6.Controls.Add(this.u01TextBox3);
             this.groupBox6.Controls.Add(this.label13);
             this.groupBox6.Controls.Add(this.checkBox3);
             this.groupBox6.Controls.Add(this.epsTextBox3);
@@ -566,7 +572,7 @@
             this.groupBox6.Controls.Add(this.nTextBox3);
             this.groupBox6.Location = new System.Drawing.Point(6, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(407, 141);
+            this.groupBox6.Size = new System.Drawing.Size(413, 141);
             this.groupBox6.TabIndex = 39;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Параметры";
@@ -576,34 +582,34 @@
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(268, 16);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(71, 13);
+            this.label22.Size = new System.Drawing.Size(57, 13);
             this.label22.TabIndex = 39;
-            this.label22.Text = "a - параметр";
+            this.label22.Text = "a - парам.";
             // 
             // aTextBox3
             // 
             this.aTextBox3.Location = new System.Drawing.Point(271, 32);
             this.aTextBox3.Name = "aTextBox3";
-            this.aTextBox3.Size = new System.Drawing.Size(126, 20);
+            this.aTextBox3.Size = new System.Drawing.Size(59, 20);
             this.aTextBox3.TabIndex = 40;
             this.aTextBox3.Text = "1.1";
             // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(136, 16);
+            this.label21.Location = new System.Drawing.Point(68, 16);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(106, 13);
+            this.label21.Size = new System.Drawing.Size(27, 13);
             this.label21.TabIndex = 37;
-            this.label21.Text = "u\'(0) - нач. значение";
+            this.label21.Text = "u\'(0)";
             // 
-            // u01textBox3
+            // u01TextBox3
             // 
-            this.u01textBox3.Location = new System.Drawing.Point(139, 32);
-            this.u01textBox3.Name = "u01textBox3";
-            this.u01textBox3.Size = new System.Drawing.Size(126, 20);
-            this.u01textBox3.TabIndex = 38;
-            this.u01textBox3.Text = "1.1";
+            this.u01TextBox3.Location = new System.Drawing.Point(71, 32);
+            this.u01TextBox3.Name = "u01TextBox3";
+            this.u01TextBox3.Size = new System.Drawing.Size(62, 20);
+            this.u01TextBox3.TabIndex = 38;
+            this.u01TextBox3.Text = "1.1";
             // 
             // label13
             // 
@@ -637,9 +643,9 @@
             this.label16.AutoSize = true;
             this.label16.Location = new System.Drawing.Point(6, 16);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(104, 13);
+            this.label16.Size = new System.Drawing.Size(28, 13);
             this.label16.TabIndex = 21;
-            this.label16.Text = "u(0) - нач. значение";
+            this.label16.Text = "u(0) ";
             // 
             // rbTextBox3
             // 
@@ -653,7 +659,7 @@
             // 
             this.u0TextBox3.Location = new System.Drawing.Point(7, 32);
             this.u0TextBox3.Name = "u0TextBox3";
-            this.u0TextBox3.Size = new System.Drawing.Size(126, 20);
+            this.u0TextBox3.Size = new System.Drawing.Size(58, 20);
             this.u0TextBox3.TabIndex = 25;
             this.u0TextBox3.Text = "1.1";
             // 
@@ -674,6 +680,7 @@
             this.rButton3.TabIndex = 11;
             this.rButton3.Text = "запуск";
             this.rButton3.UseVisualStyleBackColor = true;
+            this.rButton3.Click += new System.EventHandler(this.rButton3_Click);
             // 
             // label19
             // 
@@ -715,9 +722,9 @@
             this.groupBox3.Controls.Add(this.pictureBox8);
             this.groupBox3.Controls.Add(this.label18);
             this.groupBox3.Controls.Add(this.pictureBox9);
-            this.groupBox3.Location = new System.Drawing.Point(419, 6);
+            this.groupBox3.Location = new System.Drawing.Point(425, 6);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(278, 141);
+            this.groupBox3.Size = new System.Drawing.Size(272, 141);
             this.groupBox3.TabIndex = 27;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Справка";
@@ -753,7 +760,7 @@
             this.pictureBox9.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox9.Image")));
             this.pictureBox9.Location = new System.Drawing.Point(14, 44);
             this.pictureBox9.Name = "pictureBox9";
-            this.pictureBox9.Size = new System.Drawing.Size(235, 41);
+            this.pictureBox9.Size = new System.Drawing.Size(217, 41);
             this.pictureBox9.TabIndex = 18;
             this.pictureBox9.TabStop = false;
             // 
@@ -779,7 +786,7 @@
             // 
             this.minXTB.Location = new System.Drawing.Point(47, 17);
             this.minXTB.Name = "minXTB";
-            this.minXTB.Size = new System.Drawing.Size(100, 20);
+            this.minXTB.Size = new System.Drawing.Size(55, 20);
             this.minXTB.TabIndex = 0;
             // 
             // label23
@@ -794,7 +801,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(153, 20);
+            this.label24.Location = new System.Drawing.Point(109, 20);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(34, 13);
             this.label24.TabIndex = 3;
@@ -802,15 +809,15 @@
             // 
             // maxXTB
             // 
-            this.maxXTB.Location = new System.Drawing.Point(190, 17);
+            this.maxXTB.Location = new System.Drawing.Point(149, 17);
             this.maxXTB.Name = "maxXTB";
-            this.maxXTB.Size = new System.Drawing.Size(100, 20);
+            this.maxXTB.Size = new System.Drawing.Size(55, 20);
             this.maxXTB.TabIndex = 2;
             // 
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(296, 20);
+            this.label25.Location = new System.Drawing.Point(215, 20);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(31, 13);
             this.label25.TabIndex = 5;
@@ -818,15 +825,15 @@
             // 
             // minYTB
             // 
-            this.minYTB.Location = new System.Drawing.Point(333, 17);
+            this.minYTB.Location = new System.Drawing.Point(252, 17);
             this.minYTB.Name = "minYTB";
-            this.minYTB.Size = new System.Drawing.Size(100, 20);
+            this.minYTB.Size = new System.Drawing.Size(55, 20);
             this.minYTB.TabIndex = 4;
             // 
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(439, 20);
+            this.label26.Location = new System.Drawing.Point(313, 20);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(34, 13);
             this.label26.TabIndex = 7;
@@ -834,20 +841,50 @@
             // 
             // maxYTB
             // 
-            this.maxYTB.Location = new System.Drawing.Point(476, 17);
+            this.maxYTB.Location = new System.Drawing.Point(353, 17);
             this.maxYTB.Name = "maxYTB";
-            this.maxYTB.Size = new System.Drawing.Size(100, 20);
+            this.maxYTB.Size = new System.Drawing.Size(55, 20);
             this.maxYTB.TabIndex = 6;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(601, 14);
+            this.button1.Location = new System.Drawing.Point(599, 14);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(98, 23);
+            this.button1.Size = new System.Drawing.Size(101, 25);
             this.button1.TabIndex = 8;
             this.button1.Text = "применить";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(333, 16);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(57, 13);
+            this.label27.TabIndex = 41;
+            this.label27.Text = "b - парам.";
+            // 
+            // bTextBox3
+            // 
+            this.bTextBox3.Location = new System.Drawing.Point(336, 32);
+            this.bTextBox3.Name = "bTextBox3";
+            this.bTextBox3.Size = new System.Drawing.Size(59, 20);
+            this.bTextBox3.TabIndex = 42;
+            this.bTextBox3.Text = "1.1";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "x -> u1",
+            "x -> u2",
+            "u1 -> u2"});
+            this.comboBox1.Location = new System.Drawing.Point(139, 32);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(126, 21);
+            this.comboBox1.TabIndex = 9;
             // 
             // MainForm
             // 
@@ -954,7 +991,7 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.TextBox aTextBox3;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.TextBox u01textBox3;
+        private System.Windows.Forms.TextBox u01TextBox3;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TextBox maxYTB;
@@ -965,6 +1002,9 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.TextBox minXTB;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox bTextBox3;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 

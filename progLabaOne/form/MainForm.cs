@@ -29,11 +29,11 @@ namespace nm
             this.Shown += MainForm_Shown;
         }
 
-        private void correctAxis(double x, double miny, double maxy)
+        private void correctAxis(double x, double miny, double maxy, double minx = 0)
         {
             try
             {
-                var tmp = !string.IsNullOrWhiteSpace(minXTB.Text) ? Convert.ToDouble(minXTB.Text.Replace('.', ',')) : 0;
+                var tmp = !string.IsNullOrWhiteSpace(minXTB.Text) ? Convert.ToDouble(minXTB.Text.Replace('.', ',')) : minx;
                 mainChart.ChartAreas[0].AxisX.Minimum = tmp;
 
                 tmp = !string.IsNullOrWhiteSpace(maxXTB.Text) ? Convert.ToDouble(maxXTB.Text.Replace('.', ',')) : x;
@@ -54,6 +54,8 @@ namespace nm
         private void MainForm_Shown(object sender, EventArgs e)
         {
             correctAxis(10,0,5);
+
+            comboBox1.Select(0,1);
 
             mainChart.ChartAreas[0].AxisX.Title = "x";
             mainChart.ChartAreas[0].AxisY.Title = "u";
@@ -111,6 +113,9 @@ namespace nm
             sRun = true;
             rButton1.Text = "cтоп";
 
+            mainChart.ChartAreas[0].AxisX.Title = "x";
+            mainChart.ChartAreas[0].AxisY.Title = "u";
+
             super = new Thread(() =>
             {
                 double u0 = Convert.ToDouble(u0TextBox1.Text.Replace('.', ','));
@@ -121,7 +126,7 @@ namespace nm
 
                 bool ctrl = !checkBox1.Checked;
 
-                Method m = new Method((x, u) => (-1) * 5 / 2 * u, 0, u0, h, eps, ctrl);
+                FirstMethod m = new FirstMethod((x, u) => (-1) * 5 / 2 * u, 0, u0, h, eps, ctrl);
 
                 mainChart.Invoke(new Action(() => {
                     mainChart.Series["Численное решение"].Points.Clear();
@@ -134,16 +139,30 @@ namespace nm
                 ++nums;
                 info = new DotForm();
                 info.label1.Text = "Запуск номер" + nums + "; Метод 2";
-                info.param.Text = $"U(0): {u0}, H: {h}, N: {n}, EPS: {eps}, Ctrl: {ctrl}";
+                
 
 
                 minDot = double.MaxValue;
                 maxDot = double.MinValue;
 
+                double minStep = double.MaxValue;
+                double mns = 0;
+
+                double maxStep = double.MinValue;
+                double mxs = 0;
+
+                double maxDiff = 0;
+                double mxd = 0;
+
+                int count = 0;
+                Dot p = null;
+
+                double maxOLP = 0;
+
                 foreach (var i in Enumerable.Range(0, n))
                 {
                     double step = m.Step;
-                    Dot p = m.nextStep(out double contr);
+                    p = m.nextStep(out double contr, out double olp);
                     if (Math.Abs(p.Y) < 1e-8)
                         p.Y = 0;
                     if (Math.Abs(p.Y) > 10e+20)
@@ -163,7 +182,7 @@ namespace nm
 
                     mainChart.Invoke(new Action(() =>
                     {
-                        info.dataGridView1.Rows.Add(i + "", p.X, step, p.Y, contr, p.Y - contr);
+                        info.dataGridView1.Rows.Add(i + "", p.Y, contr, p.Y - contr, olp, step, m.C1, m.C2, u0 * Math.Exp(-5 / 2 * p.X), Math.Abs(u0 * Math.Exp(-5 / 2 * p.X) - p.Y));
                     }));
 
                     if (minDot > p.Y)
@@ -175,11 +194,35 @@ namespace nm
                     if (p.X > rb)
                         break;
 
+                    if (maxOLP < Math.Abs(olp))
+                        maxOLP = Math.Abs(olp);
+
+                    if (step > maxStep)
+                    {
+                        maxStep = step;
+                        mxs = p.X;
+                    }
+
+                    if(step < minStep)
+                    {
+                        minStep = step;
+                        mns = p.X;
+                    }
+
+                    if(maxDiff < Math.Abs(u0 * Math.Exp(-5 / 2 * p.X) - p.Y))
+                    {
+                        maxDiff = Math.Abs(u0 * Math.Exp(-5 / 2 * p.X) - p.Y);
+                        mxd = p.X;
+                    }
+
+                    count++;
+
                 }
 
                 mainChart.Invoke(new Action(() =>
                 {
                     correctAxis(rb, minDot - 0.01, maxDot + 0.01);
+                    info.param.Text = $"n = : {count}, \nb-Xn: {rb - p.X}, \nmaxOLP: {maxOLP}, \nC1: {m.C1}, \nC2: {m.C2}, \nmax Hi: {maxStep} -> x: {mxs}, \nmin Hi: {minStep} -> x: {mns}, \nMaxDiff: {maxDiff} -> x: {mxd}";
 
                     info.Show();
 
@@ -198,6 +241,9 @@ namespace nm
 
         private void dButton1_Click(object sender, EventArgs e)
         {
+            mainChart.ChartAreas[0].AxisX.Title = "x";
+            mainChart.ChartAreas[0].AxisY.Title = "u";
+
             double u0 = Convert.ToDouble(u0TextBox1.Text.Replace('.', ','));
             double rb = Convert.ToDouble(rbTextBox1.Text.Replace(',', ','));
 
@@ -245,7 +291,7 @@ namespace nm
 
                 bool ctrl = !checkBox2.Checked;
 
-                Method m = new Method((x, u) => ((Math.Log(x + 1)) / (x * x + 1)) * u * u + u - u * u * u * Math.Sin(10 * x), 0, u0, h, eps, ctrl);
+                FirstMethod m = new FirstMethod((x, u) => ((Math.Log(x + 1)) / (x * x + 1)) * u * u + u - u * u * u * Math.Sin(10 * x), 0, u0, h, eps, ctrl);
 
 
                 mainChart.Invoke(new Action(() =>
@@ -260,16 +306,29 @@ namespace nm
                 ++nums;
                 info = new DotForm();
                 info.label1.Text = "Запуск номер " + nums + "; Метод 2";
-                info.param.Text = $"U(0): {u0}, H: {h}, N: {n}, EPS: {eps}, Ctrl: {ctrl}";
+                
+
 
 
                 minDot = double.MaxValue;
                 maxDot = double.MinValue;
 
+                double minStep = double.MaxValue;
+                double mns = 0;
+
+                double maxStep = double.MinValue;
+                double mxs = 0;
+
+                int count = 0;
+
+                Dot p = null;
+
+                double maxOLP = 0;
+
                 foreach (var i in Enumerable.Range(0, n))
                 {
                     double step = m.Step;
-                    Dot p = m.nextStep(out double contr);
+                    p = m.nextStep(out double contr, out double olp);
                     if (Math.Abs(p.Y) < 1e-8)
                         p.Y = 0;
                     if (Math.Abs(p.Y) > 10e+20)
@@ -288,7 +347,7 @@ namespace nm
 
                     mainChart.Invoke(new Action(() =>
                     {
-                        info.dataGridView1.Rows.Add(i + "", p.X, step, p.Y, contr, p.Y - contr);
+                        info.dataGridView1.Rows.Add(i + "", p.Y, contr, p.Y - contr, olp, step, m.C1, m.C2, "-", "-");
                     }));
 
                     if (minDot > p.Y)
@@ -300,12 +359,30 @@ namespace nm
                     if (p.X > rb)
                         break;
 
+                    if (maxOLP < Math.Abs(olp))
+                        maxOLP = Math.Abs(olp);
+
+                    if (step > maxStep)
+                    {
+                        maxStep = step;
+                        mxs = p.X;
+                    }
+
+                    if (step < minStep)
+                    {
+                        minStep = step;
+                        mns = p.X;
+                    }
+
+                    count++;
+
                 }
 
                 mainChart.Invoke(new Action(() =>
                 {
                     correctAxis(rb, minDot - 0.01, maxDot + 0.01);
 
+                    info.param.Text = $"n = : {count}, \nb-Xn: {rb - p.X}, \nmaxOLP: {maxOLP}, \nC1: {m.C1}, \nC2: {m.C2}, \nmax Hi: {maxStep} -> x: {mxs}, \nmin Hi: {minStep} -> x: {mns}";
                     info.Show();
 
                     sRun = false;
@@ -324,6 +401,189 @@ namespace nm
             double rb = Convert.ToDouble(rbTextBox2.Text.Replace('.', ','));
 
             correctAxis(rb, minDot - 0.01, maxDot + 0.01);
+        }
+
+        private void rButton3_Click(object sender, EventArgs e)
+        {
+            tabControl1.TabPages[1].Enabled = false;
+            tabControl1.TabPages[0].Enabled = false;
+
+            if (sRun)
+            {
+                sRun = false;
+                super.Abort();
+                rButton3.Text = "запуск";
+
+                tabControl1.TabPages[1].Enabled = true;
+                tabControl1.TabPages[0].Enabled = true;
+
+                return;
+            }
+
+            sRun = true;
+            rButton3.Text = "cтоп";
+
+            int selected = comboBox1.SelectedIndex;
+            super = new Thread(() =>
+            {
+                double u0 = Convert.ToDouble(u0TextBox3.Text.Replace('.', ','));
+                double u01 = Convert.ToDouble(u01TextBox3.Text.Replace('.', ','));
+                double h = Convert.ToDouble(hTextBox3.Text.Replace('.', ','));
+                int n = Convert.ToInt32(nTextBox3.Text.Replace('.', ','));
+                double eps = Convert.ToDouble(epsTextBox3.Text.Replace('.', ','));
+                double rb = Convert.ToDouble(rbTextBox3.Text.Replace('.', ','));
+
+                double a = Convert.ToDouble(aTextBox3.Text.Replace('.', ','));
+                double b = Convert.ToDouble(bTextBox3.Text.Replace('.', ','));
+
+                
+
+                bool ctrl = !checkBox3.Checked;
+
+                SecondMethod m = new SecondMethod(
+                    (x, u1, u2) => (u2),
+                    (x, u1, u2) => (-a*Math.Sqrt(u2*u2+1)-b),
+                     0, u0, u01, h, eps, ctrl);
+
+
+                mainChart.Invoke(new Action(() =>
+                {
+                    mainChart.Series["Численное решение"].Points.Clear();
+                    mainChart.Series["Точное решение"].Points.Clear();
+
+
+                    chart1.Series["h"].Points.Clear();
+                }));
+
+                ++nums;
+                info = new DotForm();
+                info.label1.Text = "Запуск номер " + nums + "; Метод 3";
+
+
+                minDot = double.MaxValue;
+                maxDot = double.MinValue;
+                double minX = double.MaxValue;
+
+                double minStep = double.MaxValue;
+                double mns = 0;
+
+                double maxStep = double.MinValue;
+                double mxs = 0;
+
+                MDot p = null;
+
+                int count = 0;
+                double maxOLP = 0;
+
+                foreach (var i in Enumerable.Range(0, n))
+                {
+                    double step = m.Step;
+                    p = m.nextStep(out double contr, out double olp);
+                    if (Math.Abs(p.U1) < 1e-8)
+                        p.U2 = 0;
+                    if (Math.Abs(p.U1) > 10e+20)
+                        break;
+                    if (Math.Abs(p.X) < 1e-8)
+                        p.X = 0;
+                    if (Math.Abs(p.X) > 10e+20)
+                        break;
+
+                    Dot add = new Dot();
+
+                    if (selected == 0)
+                    {
+                        add.X = p.X;
+                        add.Y = p.U1;
+                    }
+                    if (selected == 1)
+                    {
+                        add.X = p.X;
+                        add.Y = p.U2;
+                    }
+                    if (selected == 2)
+                    {
+                        add.X = p.U1;
+                        add.Y = p.U2;
+                    }
+
+                    mainChart.Invoke(new Action(() => {
+                        mainChart.Series["Численное решение"].Points.AddXY(add.X, add.Y);
+                        chart1.Series["h"].Points.AddXY(i, step);
+                    }));
+
+                    Console.WriteLine(p.X + " " + p.U1);
+
+                    mainChart.Invoke(new Action(() =>
+                    {
+                        info.dataGridView1.Rows.Add(i + "", add.Y, contr, add.Y - contr, olp, step, m.C1, m.C2, "-", "-");
+                    }));
+
+                    if (minDot > add.Y)
+                        minDot = add.Y;
+
+                    if (maxDot < add.Y)
+                        maxDot = add.Y;
+
+                    if (minX > add.X)
+                        minX = add.X;
+
+                    if (p.X > rb)
+                        break;
+
+                    if (maxOLP < Math.Abs(olp))
+                        maxOLP = Math.Abs(olp);
+
+                    if (step > maxStep)
+                    {
+                        maxStep = step;
+                        mxs = p.X;
+                    }
+
+                    if (step < minStep)
+                    {
+                        minStep = step;
+                        mns = p.X;
+                    }
+
+                    count++;
+
+                }
+
+                mainChart.Invoke(new Action(() =>
+                {
+                    correctAxis(rb, minDot - 0.01, maxDot + 0.01);
+
+                    info.param.Text = $"n = : {count}, \nb-Xn: {rb - p.X}, \nmaxOLP: {maxOLP}, \nC1: {m.C1}, \nC2: {m.C2}, \nmax Hi: {maxStep} -> x: {mxs}, \nmin Hi: {minStep} -> x: {mns}";
+                    info.Show();
+
+                    sRun = false;
+                    rButton3.Text = "запуск";
+
+                    tabControl1.TabPages[1].Enabled = true;
+                    tabControl1.TabPages[0].Enabled = true;
+
+                    if (selected == 0)
+                    {
+                        mainChart.ChartAreas[0].AxisX.Title = "x";
+                        mainChart.ChartAreas[0].AxisY.Title = "u1";
+                    }
+                    if (selected == 1)
+                    {
+                        mainChart.ChartAreas[0].AxisX.Title = "x";
+                        mainChart.ChartAreas[0].AxisY.Title = "u2";
+                    }
+                    if (selected == 2)
+                    {
+                        mainChart.ChartAreas[0].AxisX.Title = "u1";
+                        mainChart.ChartAreas[0].AxisY.Title = "u2";
+
+                        correctAxis(rb, minDot - 0.01, maxDot + 0.01, minX - 0.01);
+                    }
+
+                }));
+            });
+
+            super.Start();
         }
     }
   
