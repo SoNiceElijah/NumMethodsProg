@@ -182,7 +182,7 @@ namespace nm
 
                     mainChart.Invoke(new Action(() =>
                     {
-                        info.dataGridView1.Rows.Add(i + "", p.Y, contr, p.Y - contr, olp, step, m.C1, m.C2, u0 * Math.Exp(-5 / 2 * p.X), Math.Abs(u0 * Math.Exp(-5 / 2 * p.X) - p.Y));
+                        info.dataGridView1.Rows.Add(i + "", p.Y, contr, olp, step, m.C1, m.C2, u0 * Math.Exp(-5 / 2 * p.X), Math.Abs(u0 * Math.Exp(-5 / 2 * p.X) - p.Y));
                     }));
 
                     if (minDot > p.Y)
@@ -347,7 +347,7 @@ namespace nm
 
                     mainChart.Invoke(new Action(() =>
                     {
-                        info.dataGridView1.Rows.Add(i + "", p.Y, contr, p.Y - contr, olp, step, m.C1, m.C2, "-", "-");
+                        info.dataGridView1.Rows.Add(i + "", p.Y, contr, olp, step, m.C1, m.C2, "-", "-");
                     }));
 
                     if (minDot > p.Y)
@@ -515,7 +515,7 @@ namespace nm
 
                     mainChart.Invoke(new Action(() =>
                     {
-                        info.dataGridView1.Rows.Add(i + "", add.Y, contr, add.Y - contr, olp, step, m.C1, m.C2, "-", "-");
+                        info.dataGridView1.Rows.Add(i + "", add.Y, contr, olp, step, m.C1, m.C2, "-", "-");
                     }));
 
                     if (minDot > add.Y)
