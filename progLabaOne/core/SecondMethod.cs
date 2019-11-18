@@ -108,13 +108,13 @@ namespace core
             mes.U1 = half.U1 + (h / 6) * (k1 + 2 * k2 + 2 * k3 + k4);
             mes.U2 = half.U2 + (h / 6) * (l1 + 2 * l2 + 2 * l3 + l4);
 
-            upV = mes.U2;
+            upV = mes.U1;
 
             len = 0;
 
             if (control)
             {
-                double s = (mes.U2 - next.U2) / (15);
+                double s = (mes.U1 - next.U1) / (15);
                 if (Math.Abs(s) >= eps)
                 {
                     C1++;
