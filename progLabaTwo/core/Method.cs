@@ -74,38 +74,77 @@ namespace core
             A[0, 0] = 1;
             A[num, num] = 1;
 
-            double xi = h;
-            bool changed = false;
 
-            for(int i = 1; i < num; ++i)
+            double[] a = new double[num + 1];
+            double[] d = new double[num + 1];
+            double[] f = new double[num + 1];
+
+            a[0] = d[0] = f[0] = 0;
+
+            double xi = h;
+            for (int i = 1; i < num + 1; ++i)
             {
-                if(!changed && xi >= drop)
+                if (xi >= drop && xi - h <= drop)
                 {
+                    a[i] = h / (Kx(drop) - Kx(xi - h));
+
                     Kx = K2x;
                     Qx = Q2x;
                     Fx = F2x;
 
-                    changed = true;
+                    a[i] += h / (Kx(xi) - Kx(drop));
+
+                    continue;
                 }
 
-                double ai = h * Kx(xi);
-                double ai1 = h * Kx(xi+h);
-                double di = 1 / h * Qx(xi);
-                double fi = 1 / h * Fx(xi);
-
-                A[i, i] = (-ai - ai1) / (h * h) - di;
-                A[i, i - 1] = ai / (h * h);
-                A[i, i + 1] = ai1 / (h * h);
-
-                B[i] = -fi;
-
+                a[i] = h / (Kx(xi) - Kx(xi - h));
                 xi += h;
+
+            }
+
+            Kx = K1x;
+            Qx = Q1x;
+            Fx = F1x;
+
+            double xi2 = h * 0.5;
+            for (int i = 1; i < num + 1; ++i)
+            {
+                if (xi + h >= drop && xi <= drop)
+                {
+
+                    d[i] = (1.0 / h) * (Qx(drop) - Qx(xi2));
+                    f[i] = (1.0 / h) * (Fx(drop) - Fx(xi2));
+
+                    Kx = K2x;
+                    Qx = Q2x;
+                    Fx = F2x;
+
+                    d[i] += (1.0 / h) * (Qx(drop) - Qx(xi2));
+                    f[i] += (1.0 / h) * (Fx(drop) - Fx(xi2));
+
+                    continue;
+                }
+
+                d[i] = (1.0 / h) * (Qx(xi2 + h) - Qx(xi2));
+                f[i] = (1.0 / h) * (Fx(xi2 + h) - Fx(xi2));
+
+                xi2 += h;
+
+            }
+
+            for (int i = 1; i < num; ++i)
+            {
+                A[i, i] = (-a[i] - a[i+1]) / (h * h) - d[i];
+                A[i, i - 1] = a[i] / (h * h);
+                A[i, i + 1] = a[i+1] / (h * h);
+
+                B[i] = -f[i];
             }
 
             double[] alpha = new double[num + 1];
             double[] beta = new double[num + 1];
 
-            alpha[1] = A[0, 1];
+            alpha[1] = -A[0, 1];
             beta[1] = mu1;
 
 
@@ -113,7 +152,7 @@ namespace core
             for(int i = 1; i < num; ++i)
             {
                 alpha[i + 1] = A[i, i + 1] / (-A[i, i] - A[i, i - 1] * alpha[i]);
-                beta[i + 1] = (B[i] + A[i, i - 1] * beta[i]) / (-A[i, i] - A[i, i - 1] * alpha[i]);
+                beta[i + 1] = (-B[i] + A[i, i - 1] * beta[i]) / (-A[i, i] - A[i, i - 1] * alpha[i]);
             }
 
             double[] u = new double[num + 1];

@@ -74,12 +74,12 @@ namespace nm
                 return;
 
             Method m = new Method(
-                (x) => 1,
-                (x) => 1,
-                (x) => 1,
-                (x) => 1/2,
-                (x) => Math.PI * Math.PI / 16,
-                (x) => Math.Sqrt(2)/2,
+                (x) => x,
+                (x) => x,
+                (x) => x,
+                (x) => 2 * x,
+                (x) => (Math.PI * Math.PI / 16) * x,
+                (x) => (Math.Sqrt(2)/2) * x,
                 Math.PI / 4,
                 1, 0, num
                 );
@@ -124,12 +124,12 @@ namespace nm
                 return;
 
             Method m = new Method(
-                (x) => Math.Sqrt(2) * Math.Sin(x),
-                (x) => 1,
-                (x) => Math.Sin(2 * x),
-                (x) => Math.Cos(x) * Math.Cos(x),
-                (x) => x * x,
-                (x) => Math.Cos(x),
+                (x) => 1/Math.Sqrt(2)*Math.Log(Math.Tan(x/2)),
+                (x) => x,
+                (x) => -1/2 * Math.Cos(2 * x),
+                (x) => Math.Tan(x),
+                (x) => x * x * x * (1/3),
+                (x) => Math.Sin(x),
                 Math.PI / 4,
                 1, 0, num
                 );
