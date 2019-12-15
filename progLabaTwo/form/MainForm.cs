@@ -74,6 +74,7 @@ namespace nm
         private void rButton1_Click(object sender, EventArgs e)
         {
             double epsMax = -1;
+            double kMax = -1;
 
             int num;
             if (!int.TryParse(textBox1.Text, out num))
@@ -99,23 +100,49 @@ namespace nm
 
             chart2.Series[0].Points.Clear();
             mainChart.Series[0].Points.Clear();
-            for(int i = 0; i <= num; ++i)
+
+            info.Data = new List<string[]>();
+            for (int i = 0; i <= num; ++i)
             {
                 double ui = UFunc(xi);
                 double eps = (v[i] - ui);
 
-                mainChart.Series[0].Points.AddXY(xi, v[i]);
-                chart2.Series[0].Points.AddXY(xi, Math.Abs(eps));
+                string[] data = { i + "" ,xi + "", ui + "", v[i] + "", eps + "" };
+                info.Data.Add(data);
 
-                info.dataGridView1.Rows.Add(xi,ui,v[i],eps);
-
-                if (eps > epsMax)
-                    epsMax = eps;
+                if (Math.Abs(eps) > epsMax)
+                {
+                    epsMax = Math.Abs(eps);
+                    kMax = i;
+                }
 
                 xi += h;
             }
 
-            info.param.Text = $"Полученная точность решения: {epsMax}";
+            int control = 1;
+            if (num > 1000)
+            {
+                control = num / 1000;
+                num = 1000;
+            }
+
+            xi = 0;
+            h = 1.0 / num;
+            for (int i = 0; i <= num; ++i)
+            {
+                double ui = UFunc(xi);
+                double eps = (v[control*i] - ui);
+
+                mainChart.Series[0].Points.AddXY(xi, v[control * i]);
+                chart2.Series[0].Points.AddXY(xi, Math.Abs(eps));
+
+                xi += h;
+            }
+
+            if (num > 1000)
+                mainChart.Series[0].Points.AddXY(1, v[v.Length-1]);
+
+            info.param.Text = $"Полученная точность решения: {epsMax}, на {kMax} шаге";
 
             info.Show();
 
@@ -150,12 +177,16 @@ namespace nm
 
         private void rButton2_Click(object sender, EventArgs e)
         {
+            double epsMax = -1;
+            double kMax = -1;
+
             mainChart.Series[1].Points.Clear();
 
             int num;
             if (!int.TryParse(textBox2.Text, out num))
                 return;
 
+            info = new DotForm();
             Method m = new Method(
                 (x) => Math.Sqrt(2)*Math.Sin(x),
                 (x) => 1,
@@ -187,13 +218,48 @@ namespace nm
 
             chart2.Series[0].Points.Clear();
             mainChart.Series[0].Points.Clear();
+            info.Data = new List<string[]>();
             for (int i = 0; i <= num; ++i)
             {
-                mainChart.Series[0].Points.AddXY(xi, v[i]);
-                chart2.Series[0].Points.AddXY(xi, Math.Abs(v[i] - u[2*i]));
+                double eps = (v[i] - u[2*i]);
+
+                string[] data = { i + "", xi + "", u[2*i] + "", v[i] + "", eps + "" };
+                info.Data.Add(data);
+
+                if (Math.Abs(eps) > epsMax)
+                {
+                    epsMax = Math.Abs(eps);
+                    kMax = i;
+                }
 
                 xi += h;
             }
+
+            int control = 1;
+            if (num > 1000)
+            {
+                control = num / 1000;
+                num = 1000;
+            }
+
+            xi = 0;
+            h = 1.0 / num;
+            for (int i = 0; i <= num; ++i)
+            {
+                double eps = (v[control * i] - u[2*control*i]);
+
+                mainChart.Series[0].Points.AddXY(xi, v[control * i]);
+                chart2.Series[0].Points.AddXY(xi, Math.Abs(eps));
+
+                xi += h;
+            }
+
+            if (num > 1000)
+                mainChart.Series[0].Points.AddXY(1, v[v.Length - 1]);
+
+            info.param.Text = $"Полученная точность решения: {epsMax}, на {kMax} шаге";
+
+            info.Show();
         }
 
         double UFunc(double xi)

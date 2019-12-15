@@ -52,23 +52,11 @@ namespace core
 
         public double[] Count()
         {
-            double[,] A = new double[num + 1, num + 1];
-            double[] B = new double[num + 1];
-
-            for(int i = 0; i < A.Length; ++i)
-                A[i / (num + 1), i % (num + 1)] = 0;
-
             double h = 1.0 / num;
 
             Kx = K1x;
             Qx = Q1x;
             Fx = F1x;
-
-            B[0] = mu1;
-            B[num] = mu2;
-
-            A[0, 0] = 1;
-            A[num, num] = 1;
 
 
             double[] a = new double[num + 1];
@@ -134,33 +122,33 @@ namespace core
 
             }
 
-            for (int i = 1; i < num; ++i)
-            {
-                A[i, i] = (-a[i] - a[i+1]) / (h * h) - d[i];
-                A[i, i - 1] = a[i] / (h * h);
-                A[i, i + 1] = a[i+1] / (h * h);
 
-                B[i] = -f[i];
-            }
+            double Ai;
+            double Bi;
+            double Ci;
 
             double[] alpha = new double[num + 1];
             double[] beta = new double[num + 1];
 
-            alpha[1] = -A[0, 1];
+            alpha[1] = 0;
             beta[1] = mu1;
 
 
             //Прямой ход
             for(int i = 1; i < num; ++i)
             {
-                alpha[i + 1] = A[i, i + 1] / (-A[i, i] - A[i, i - 1] * alpha[i]);
-                beta[i + 1] = (-B[i] + A[i, i - 1] * beta[i]) / (-A[i, i] - A[i, i - 1] * alpha[i]);
+                Ai = 1.0 / (h * h) * a[i];
+                Bi = 1.0 / (h * h) * a[i + 1];
+                Ci = (1.0 / (h * h)) * (a[i] + a[i + 1]) + d[i];
+
+                alpha[i + 1] = Bi / (Ci - Ai * alpha[i]);
+                beta[i + 1] = (f[i] + Ai * beta[i]) / (Ci - Ai * alpha[i]);
             }
 
             double[] u = new double[num + 1];
             //Обратный ход
 
-            u[num] = (A[num, num - 1] * beta[num] - mu2) / (-A[num, num - 1] - 1);
+            u[num] = mu2;
             for(int i = num-1; i >= 0; --i)
             {
                 u[i] = alpha[i + 1] * u[i + 1] + beta[i + 1];
