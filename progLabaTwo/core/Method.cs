@@ -149,6 +149,7 @@ namespace core
             //Обратный ход
 
             u[num] = mu2;
+
             for(int i = num-1; i >= 0; --i)
             {
                 u[i] = alpha[i + 1] * u[i + 1] + beta[i + 1];

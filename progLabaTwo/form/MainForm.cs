@@ -82,15 +82,15 @@ namespace nm
 
             info = new DotForm();
             Method m = new Method(
-                (x) => 1,
-                (x) => 1,
-                (x) => 1,
-                (x) => 1.0/2.0,
-                (x) => (Math.PI * Math.PI / 16.0),
-                (x) => (Math.Sqrt(2.0)/2.0),
-                Math.PI / 4.0,
-                1.0, 0.0, num
-                );
+               (x) => 1,
+               (x) => 1,
+               (x) => 1,
+               (x) => 1.0 / 2.0,
+               (x) => (Math.PI * Math.PI / 16.0),
+               (x) => (Math.Sqrt(2.0) / 2.0),
+               Math.PI / 4.0,
+               1.0, 0.0, num
+               );
 
             double[] v = m.Count();
 
@@ -188,11 +188,11 @@ namespace nm
 
             info = new DotForm();
             Method m = new Method(
-                (x) => Math.Sqrt(2)*Math.Sin(x),
+                (x) => Math.Sqrt(2) * Math.Sin(x),
                 (x) => 1,
-                (x) => Math.Sin(2*x),
-                (x) => Math.Cos(x)*Math.Cos(x),
-                (x) => x*x,
+                (x) => Math.Sin(2 * x),
+                (x) => Math.Cos(x) * Math.Cos(x),
+                (x) => x * x,
                 (x) => Math.Cos(x),
                 Math.PI / 4,
                 1, 0, num
