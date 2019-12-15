@@ -28,13 +28,9 @@ namespace core
         public double mu1;
         public double mu2;
 
-        double step;
         double eps;
 
         int num;
-
-        public double Step { get => step; }
-
 
         public Method(Func k1, Func q1, Func f1, Func k2, Func q2, Func f2,double d, double m1, double m2, int n)
         {
@@ -81,54 +77,60 @@ namespace core
 
             a[0] = d[0] = f[0] = 0;
 
-            double xi = h;
+
+
+            double xi = h * 0.5;
             for (int i = 1; i < num + 1; ++i)
             {
-                if (xi >= drop && xi - h <= drop)
+                if (xi - 0.5*h < drop && xi + 0.5 * h > drop)
                 {
-                    a[i] = h / (Kx(drop) - Kx(xi - h));
+                    a[i] = (drop - xi-0.5*h) / Kx((xi - 0.5 * h + drop)/2);
 
                     Kx = K2x;
-                    Qx = Q2x;
-                    Fx = F2x;
 
-                    a[i] += h / (Kx(xi) - Kx(drop));
+                    a[i] += ( - drop + xi + 0.5 * h) / Kx((xi + 0.5 * h + drop) / 2);
+                    a[i] = Math.Pow(1.0 / h * a[i], -1);
+
+                    xi += h;
 
                     continue;
                 }
 
-                a[i] = h / (Kx(xi) - Kx(xi - h));
+                a[i] = Kx(xi);
                 xi += h;
 
             }
 
-            Kx = K1x;
             Qx = Q1x;
             Fx = F1x;
 
-            double xi2 = h * 0.5;
+            xi = h;
             for (int i = 1; i < num + 1; ++i)
             {
-                if (xi + h >= drop && xi <= drop)
+                if (xi - 0.5*h < drop && xi + 0.5*h > drop)
                 {
 
-                    d[i] = (1.0 / h) * (Qx(drop) - Qx(xi2));
-                    f[i] = (1.0 / h) * (Fx(drop) - Fx(xi2));
+                    d[i] = Qx((xi - 0.5 * h + drop) / 2) * (drop - (xi - 0.5 * h));
+                    f[i] = Fx((xi - 0.5 * h + drop) / 2) * (drop - (xi - 0.5 * h));
 
-                    Kx = K2x;
                     Qx = Q2x;
                     Fx = F2x;
 
-                    d[i] += (1.0 / h) * (Qx(drop) - Qx(xi2));
-                    f[i] += (1.0 / h) * (Fx(drop) - Fx(xi2));
+                    d[i] += Qx((xi + 0.5 * h + drop) / 2) * (- drop + (xi + 0.5 * h));
+                    f[i] += Fx((xi + 0.5 * h + drop) / 2) * (-drop + (xi + 0.5 * h));
+
+                    d[i] *= 1.0 / h;
+                    f[i] *= 1.0 / h;
+
+                    xi += h;
 
                     continue;
                 }
 
-                d[i] = (1.0 / h) * (Qx(xi2 + h) - Qx(xi2));
-                f[i] = (1.0 / h) * (Fx(xi2 + h) - Fx(xi2));
+                d[i] = Qx(xi);
+                f[i] = Fx(xi);
 
-                xi2 += h;
+                xi += h;
 
             }
 
