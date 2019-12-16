@@ -54,7 +54,7 @@ namespace nm
 
             Console.WriteLine(num + " " + diff);
 
-            info = new DotForm(n - 1, m - 1, result);
+            info = new DotForm(param2,n - 1, m - 1, result);
 
             info.Show();
 

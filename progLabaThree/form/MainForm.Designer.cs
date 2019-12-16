@@ -84,9 +84,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(16, 136);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(132, 13);
+            this.label3.Size = new System.Drawing.Size(137, 13);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Максимальная точность";
+            this.label3.Text = "Минимальное изменение";
             // 
             // textBox2
             // 
