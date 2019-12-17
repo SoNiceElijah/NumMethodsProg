@@ -19,7 +19,7 @@ namespace nm
 
 
 
-        public DotForm(double[] borders, int n, int m, double[] data)
+        public DotForm(double[] borders, int n, int m, double[,] data)
         {
             InitializeComponent();
 
@@ -44,11 +44,11 @@ namespace nm
             panel1.Controls.Add(drop);
 
 
-            for (int i = 0; i < m; ++i)
+            for (int i = 0; i < m + 1; ++i)
             {
                 var l = new Label()
                 {
-                    Location = new Point((i + 1) * w, 0),
+                    Location = new Point((i+1) * w, 0),
                     Size = new Size(w, s),
                     AutoSize = false,
                     TextAlign = ContentAlignment.MiddleCenter,
@@ -60,7 +60,7 @@ namespace nm
                 panel1.Controls.Add(l);
             }
 
-            for (int j = 0; j < m; ++j)
+            for (int j = 0; j < m + 1; ++j)
             {
                 var l = new Label()
                 {
@@ -76,15 +76,15 @@ namespace nm
                 panel1.Controls.Add(l);
             }
 
-            for (int i = 0; i < m; ++i)
+            for (int i = 0; i < m + 1; ++i)
             {
-                for (int j = 0; j < n; ++j) {
+                for (int j = 0; j < n + 1; ++j) {
                     var l = new TextBox()
                     {
                         Location = new Point((i + 1) * w, (j+1)* s),
                         Size = new Size(w, s),
                         AutoSize = false,
-                        Text = data[m * j + i] + ""
+                        Text = data[i,j] + ""
                     };
 
                     panel1.Controls.Add(l);

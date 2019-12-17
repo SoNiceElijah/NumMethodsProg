@@ -19,6 +19,8 @@ namespace core
         public Func M3 { get; private set; }
         public Func M4 { get; private set; }
 
+        public double[,] Result { get; private set; }
+
         public double a, b, c, d;
 
         int m;
@@ -76,8 +78,8 @@ namespace core
             double h = (b - a) / n;
             for (int i = 0; i <= n; ++i)
             {
-                v[i, 0] = M1(i * h + a, c);
-                v[i, m] = M2(i * h + a, d);
+                v[i, 0] = M3(i * h + a, c);
+                v[i, m] = M4(i * h + a, d);
             }
 
             double k2 = -1.0 / (k * k);
@@ -94,7 +96,9 @@ namespace core
                     {
                         double tmp = v[i, j];
 
-                        v[i, j] = (1.0 / a2) * (F(i * h + a, j * k + c) - (h2 * (v[i + 1, j] + v[i - 1, j]) + k2 * (v[i, j + 1] + v[i, j - 1])));
+                        v[i, j] = - (h2 * (v[i + 1, j] + v[i - 1, j]) + k2 * (v[i, j + 1] + v[i, j - 1]));
+                        v[i, j] = v[i, j] + F(a + i * h, c + j * k);
+                        v[i, j] = v[i, j] / a2;
 
                         double cEps = Math.Abs(v[i, j] - tmp);
                         if (mEps < cEps)
@@ -119,6 +123,9 @@ namespace core
 
             diff = mEps;
 
+
+
+            Result = v;
             List<double> res = new List<double>();
 
             for (int j = 1; j < m; ++j)
