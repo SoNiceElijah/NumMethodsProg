@@ -188,7 +188,7 @@ namespace nm
 
             info = new DotForm();
             Method m = new Method(
-                (x) => Math.Sqrt(2) * Math.Sin(x),
+                (x) => Math.Sqrt(2) * (Math.Sin(x) + 1),
                 (x) => 1,
                 (x) => Math.Sin(2 * x),
                 (x) => Math.Cos(x) * Math.Cos(x),
@@ -199,7 +199,7 @@ namespace nm
                 );
 
             Method m2 = new Method(
-               (x) => Math.Sqrt(2) * Math.Sin(x),
+               (x) => Math.Sqrt(2) * (Math.Sin(x) + 1),
                (x) => 1,
                (x) => Math.Sin(2 * x),
                (x) => Math.Cos(x) * Math.Cos(x),
@@ -264,10 +264,20 @@ namespace nm
 
         double UFunc(double xi)
         {
-            double c1 = -0.3393175; //0.3393175654523851‬
-            double c2 = 0.3393175; //0.3393175654523851‬
-            double c3 = -0.492041640; //0.4920416408816548
-            double c4 = 1.05607925; //1.056079255354578
+            double c1, c2, c3, c4, tmp_a, tmp_b;
+            double e4 = Math.Exp(Math.PI / 4);
+            double e_4 = Math.Exp(-Math.PI / 4);
+            double e_8 = Math.Exp(-Math.PI * Math.PI / (8 * Math.Sqrt(2)));
+            double e8_2 = Math.Exp(Math.PI * Math.PI / (8 * Math.Sqrt(2)) - Math.PI / Math.Sqrt(2));
+            double e8_22 = Math.Exp(Math.PI * Math.PI / (8 * Math.Sqrt(2)) - Math.PI / (2 * Math.Sqrt(2)));
+            double pi_4 = Math.PI / (4 * Math.Sqrt(2));
+            double pi_8 = 8 * Math.Sqrt(2) / (Math.PI * Math.PI);
+            tmp_a = -e_8 + e8_2 - pi_4 * (e_8 + e8_2) / (e4 + e_4) * (-e_4 + e4);
+            tmp_b = pi_8 - 1 - pi_8 * e8_22 + 2 / Math.PI * e8_22 / (e4 + e_4) * (-e_4 + e4);
+            c1 = -2 / Math.PI * e8_22 / (e4 + e_4) - tmp_b / tmp_a * pi_4 * (e_8 + e8_2) / (e4 + e_4);
+            c2 = 2 / Math.PI * e8_22 / (e4 + e_4) + tmp_b / tmp_a * pi_4 * (e_8 + e8_2) / (e4 + e_4);
+            c3 = -pi_8 * Math.Exp(-Math.PI / (2 * Math.Sqrt(2))) - tmp_b / tmp_a * Math.Exp(-Math.PI / Math.Sqrt(2));
+            c4 = tmp_b / tmp_a;
 
             if (xi < Math.PI/4)
             {
@@ -275,7 +285,7 @@ namespace nm
             }
             else
             {
-                return c3 * Math.Exp(Math.PI / Math.Sqrt(8) * xi) + c4 * Math.Exp(-Math.PI / Math.Sqrt(8) * xi) + 1.146318;
+                return c3 * Math.Exp(Math.PI / Math.Sqrt(8) * xi) + c4 * Math.Exp(-Math.PI / Math.Sqrt(8) * xi) + pi_8;
             }
         }
     }

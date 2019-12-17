@@ -28,8 +28,6 @@ namespace core
         public double mu1;
         public double mu2;
 
-        double eps;
-
         int num;
 
         public Method(Func k1, Func q1, Func f1, Func k2, Func q2, Func f2,double d, double m1, double m2, int n)
@@ -60,8 +58,8 @@ namespace core
 
 
             double[] a = new double[num + 1];
-            double[] d = new double[num + 1];
-            double[] f = new double[num + 1];
+            double[] d = new double[num];
+            double[] f = new double[num];
 
             a[0] = d[0] = f[0] = 0;
 
@@ -72,7 +70,7 @@ namespace core
             {
                 if (xi - 0.5*h < drop && xi + 0.5 * h > drop)
                 {
-                    a[i] = (drop - xi-0.5*h) / Kx((xi - 0.5 * h + drop)/2);
+                    a[i] = (drop - (xi-0.5*h)) / Kx((xi - 0.5 * h + drop)/2);
 
                     Kx = K2x;
 
@@ -93,7 +91,7 @@ namespace core
             Fx = F1x;
 
             xi = h;
-            for (int i = 1; i < num + 1; ++i)
+            for (int i = 1; i < num; ++i)
             {
                 if (xi - 0.5*h < drop && xi + 0.5*h > drop)
                 {
@@ -137,9 +135,9 @@ namespace core
             //Прямой ход
             for(int i = 1; i < num; ++i)
             {
-                Ai = 1.0 / (h * h) * a[i];
-                Bi = 1.0 / (h * h) * a[i + 1];
-                Ci = (1.0 / (h * h)) * (a[i] + a[i + 1]) + d[i];
+                Ai = a[i] / (h * h);
+                Bi = a[i + 1] / (h * h);
+                Ci = (a[i] + a[i + 1])/(h * h) + d[i];
 
                 alpha[i + 1] = Bi / (Ci - Ai * alpha[i]);
                 beta[i + 1] = (f[i] + Ai * beta[i]) / (Ci - Ai * alpha[i]);
