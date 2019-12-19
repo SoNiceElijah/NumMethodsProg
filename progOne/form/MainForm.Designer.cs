@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea27 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend27 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series27 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea28 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend28 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series28 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -54,19 +54,21 @@
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.epsTextBox = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -149,16 +151,16 @@
             // 
             // mainChart
             // 
-            chartArea27.Name = "ChartArea1";
-            this.mainChart.ChartAreas.Add(chartArea27);
-            legend27.Name = "Legend1";
-            this.mainChart.Legends.Add(legend27);
+            chartArea1.Name = "ChartArea1";
+            this.mainChart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.mainChart.Legends.Add(legend1);
             this.mainChart.Location = new System.Drawing.Point(218, 123);
             this.mainChart.Name = "mainChart";
-            series27.ChartArea = "ChartArea1";
-            series27.Legend = "Legend1";
-            series27.Name = "Series1";
-            this.mainChart.Series.Add(series27);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.mainChart.Series.Add(series1);
             this.mainChart.Size = new System.Drawing.Size(511, 424);
             this.mainChart.TabIndex = 12;
             this.mainChart.Text = "chart1";
@@ -182,16 +184,16 @@
             // 
             // chart1
             // 
-            chartArea28.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea28);
-            legend28.Name = "Legend1";
-            this.chart1.Legends.Add(legend28);
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
             this.chart1.Location = new System.Drawing.Point(782, 353);
             this.chart1.Name = "chart1";
-            series28.ChartArea = "ChartArea1";
-            series28.Legend = "Legend1";
-            series28.Name = "Series1";
-            this.chart1.Series.Add(series28);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(0, 195);
             this.chart1.TabIndex = 15;
             this.chart1.Text = "chart1";
@@ -209,7 +211,7 @@
             // 
             this.nTextBox.Location = new System.Drawing.Point(361, 71);
             this.nTextBox.Name = "nTextBox";
-            this.nTextBox.Size = new System.Drawing.Size(169, 20);
+            this.nTextBox.Size = new System.Drawing.Size(98, 20);
             this.nTextBox.TabIndex = 17;
             this.nTextBox.Text = "1000";
             // 
@@ -234,6 +236,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.epsTextBox);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label4);
@@ -269,40 +273,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Справка";
             // 
-            // label1
+            // label10
             // 
-            this.label1.Location = new System.Drawing.Point(11, 26);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(183, 44);
-            this.label1.TabIndex = 19;
-            this.label1.Text = "Процесс установления тока в цепи с самоиндукцией описывается уравнением";
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(11, 126);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(166, 101);
-            this.label8.TabIndex = 20;
-            this.label8.Text = "Здесь \r\n\r\nV – напряжение в цепи\r\nR – сопротивление\r\nL – коэффициент самоиндукции\r" +
-    "\nI() – сила тока\r\nt – время\r\n\r\n";
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Red;
-            this.pictureBox2.Location = new System.Drawing.Point(8, 381);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(28, 13);
-            this.pictureBox2.TabIndex = 21;
-            this.pictureBox2.TabStop = false;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(42, 400);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(103, 13);
-            this.label9.TabIndex = 22;
-            this.label9.Text = "Реальное решение";
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(42, 381);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(110, 13);
+            this.label10.TabIndex = 24;
+            this.label10.Text = "Численное решение";
             // 
             // pictureBox3
             // 
@@ -313,14 +291,57 @@
             this.pictureBox3.TabIndex = 23;
             this.pictureBox3.TabStop = false;
             // 
-            // label10
+            // label9
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(42, 381);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(110, 13);
-            this.label10.TabIndex = 24;
-            this.label10.Text = "Численное решение";
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(42, 400);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(103, 13);
+            this.label9.TabIndex = 22;
+            this.label9.Text = "Реальное решение";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Red;
+            this.pictureBox2.Location = new System.Drawing.Point(8, 381);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(28, 13);
+            this.pictureBox2.TabIndex = 21;
+            this.pictureBox2.TabStop = false;
+            // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(11, 126);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(166, 101);
+            this.label8.TabIndex = 20;
+            this.label8.Text = "Здесь \r\n\r\nV – напряжение в цепи\r\nR – сопротивление\r\nL – коэффициент самоиндукции\r" +
+    "\nI() – сила тока\r\nt – время\r\n\r\n";
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(11, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(183, 44);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "Процесс установления тока в цепи с самоиндукцией описывается уравнением";
+            // 
+            // epsTextBox
+            // 
+            this.epsTextBox.Location = new System.Drawing.Point(465, 71);
+            this.epsTextBox.Name = "epsTextBox";
+            this.epsTextBox.Size = new System.Drawing.Size(65, 20);
+            this.epsTextBox.TabIndex = 18;
+            this.epsTextBox.Text = "0.0001";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(466, 55);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(50, 13);
+            this.label11.TabIndex = 19;
+            this.label11.Text = "Эпсилон";
             // 
             // MainForm
             // 
@@ -345,8 +366,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -377,6 +398,8 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox epsTextBox;
     }
 }
 

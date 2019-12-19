@@ -75,9 +75,10 @@ namespace nm
             double v = Convert.ToDouble(vTextBox.Text.Replace('.', ','));
             double i0 = Convert.ToDouble(iTextBox.Text.Replace('.', ','));
             double h = Convert.ToDouble(hTextBox.Text.Replace('.', ','));
+            double eps = Convert.ToDouble(epsTextBox.Text.Replace('.', ','));
             int n = Convert.ToInt32(nTextBox.Text.Replace('.', ','));
 
-            Method m = new Method((x,y) =>  (- r*y/l) + (v/l), 0, i0, h);
+            Method m = new Method((x,y) =>  (- r*y/l) + (v/l), 0, i0, h, eps);
 
 
             mainChart.Series["Diff"].Points.Clear();
