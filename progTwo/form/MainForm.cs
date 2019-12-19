@@ -76,7 +76,7 @@ namespace nm
             Method m = new Method(                
                 (x, u1, u2) => ((1 / l) + -x * (1 / (l * l))) * p * l * l / (ei),
                 (x, u1, u2) => u1,
-                0 ,0 , 0, h);
+                0 ,0 , 0, h, 0,false);
 
 
             mainChart.Series["Diff"].Points.Clear();
@@ -90,7 +90,7 @@ namespace nm
 
             int i = 0;
             double sum = 0;
-            Dot d = null;
+            MDot d = null;
             while (sum < l)
             {
                 double step = m.Step;

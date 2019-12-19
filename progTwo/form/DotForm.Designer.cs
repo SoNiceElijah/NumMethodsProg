@@ -68,6 +68,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "DotForm";
             this.Text = "Информация о шагах численного метода";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
