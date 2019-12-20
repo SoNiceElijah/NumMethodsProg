@@ -28,49 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.param = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.Info = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // panel1
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 55);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(426, 445);
-            this.dataGridView1.TabIndex = 0;
+            this.panel1.AutoScroll = true;
+            this.panel1.Location = new System.Drawing.Point(12, 49);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(426, 367);
+            this.panel1.TabIndex = 0;
             // 
-            // label1
+            // Info
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Номер запуска";
-            // 
-            // param
-            // 
-            this.param.AutoSize = true;
-            this.param.Location = new System.Drawing.Point(15, 26);
-            this.param.Name = "param";
-            this.param.Size = new System.Drawing.Size(0, 13);
-            this.param.TabIndex = 2;
+            this.Info.AutoSize = true;
+            this.Info.Location = new System.Drawing.Point(13, 13);
+            this.Info.Name = "Info";
+            this.Info.Size = new System.Drawing.Size(35, 13);
+            this.Info.TabIndex = 1;
+            this.Info.Text = "label1";
             // 
             // DotForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(450, 512);
-            this.Controls.Add(this.param);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView1);
+            this.ClientSize = new System.Drawing.Size(448, 430);
+            this.Controls.Add(this.Info);
+            this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "DotForm";
             this.Text = "Информация о шагах численного метода";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -78,8 +66,7 @@
 
         #endregion
 
-        public System.Windows.Forms.DataGridView dataGridView1;
-        public System.Windows.Forms.Label label1;
-        public System.Windows.Forms.Label param;
+        private System.Windows.Forms.Panel panel1;
+        public System.Windows.Forms.Label Info;
     }
 }

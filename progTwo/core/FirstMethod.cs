@@ -8,7 +8,7 @@ namespace core
 {
     public class MDot
     {
-        public double X { get; set; }      
+        public double X { get; set; }
         public double U1 { get; set; }
         public double U2 { get; set; }
     }
@@ -57,7 +57,7 @@ namespace core
             control = ctrl;
         }
 
-        public MDot nextStep(out double upV, out double len)
+        public MDot nextStep(out double upV, out double param, out double len)
         {
             MDot next = new MDot();
             double h = step;
@@ -110,18 +110,19 @@ namespace core
             mes.U1 = half.U1 + (h / 6) * (k1 + 2 * k2 + 2 * k3 + k4);
             mes.U2 = half.U2 + (h / 6) * (l1 + 2 * l2 + 2 * l3 + l4);
 
-            upV = mes.U1;
+            upV = mes.U2;
 
-            len = Math.Sqrt(step* step + (point.U2 - next.U2)*(point.U2 - next.U2));
+            len = Math.Sqrt(step * step + (point.U2 - next.U2) * (point.U2 - next.U2));
 
+            param = 0;
             if (control)
             {
-                double s = (mes.U1 - next.U1) / (15);
+                double s = (mes.U2 - next.U2) / (15);
                 if (Math.Abs(s) >= eps)
                 {
                     C1++;
                     step /= 2;
-                    return nextStep(out upV, out len);
+                    return nextStep(out upV, out param, out len);
                 }
                 if (Math.Abs(s) <= eps / 15)
                 {
@@ -133,6 +134,7 @@ namespace core
                 }
 
                 double e = 15 * s;
+                param = e;
 
                 next.U2 = next.U2 + e;
             }
@@ -140,6 +142,5 @@ namespace core
 
             return point;
         }
-
     }
 }

@@ -15,30 +15,82 @@ namespace nm
         public DotForm()
         {
             InitializeComponent();
-
-
-            this.dataGridView1.Columns.Add("i", "i");
-            this.dataGridView1.Columns.Add("Xi", "Xi");
-            this.dataGridView1.Columns.Add("Hi", "Hi");
-            this.dataGridView1.Columns.Add("Vi", "Vi");
-            this.dataGridView1.Columns.Add("V^i", "V^i");
-            this.dataGridView1.Columns.Add("V^i-Vi", "V^i-Vi");
         }
 
 
 
-        public DotForm(int n, int m, double[] data)
+        public DotForm(double[] borders, int n, int m, double[,] data)
         {
             InitializeComponent();
 
-            for(int i = 0; i < m; ++i)
-                this.dataGridView1.Columns.Add("i" + i, i+"");
+            int w = 50;
+            int s = 30;
+
+            double h = (borders[1] - borders[0]) / n;
+            double k = (borders[3] - borders[2]) / m;
 
 
-            for (int i = 0; i < n; ++i)
+            var drop = new Label()
             {
-                dataGridView1.DataSource = data.Skip(i * m).Take(m).Select(u => u.ToString()).ToList();
-;
+                Location = new Point(0,0),
+                Size = new Size(w, s),
+                AutoSize = false,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Text = "",
+                BorderStyle = BorderStyle.FixedSingle,
+
+            };
+
+            panel1.Controls.Add(drop);
+
+
+            for (int i = 0; i < m + 1; ++i)
+            {
+                var l = new Label()
+                {
+                    Location = new Point((i+1) * w, 0),
+                    Size = new Size(w, s),
+                    AutoSize = false,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Text = borders[0] + i * h + "",
+                    BorderStyle = BorderStyle.FixedSingle,
+               
+                };
+
+                panel1.Controls.Add(l);
+            }
+
+            for (int j = 0; j < m + 1; ++j)
+            {
+                var l = new Label()
+                {
+                    Location = new Point(0, (j+1) * s),
+                    Size = new Size(w, s),
+                    AutoSize = false,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Text = borders[2] + j * k + "",
+                    BorderStyle = BorderStyle.FixedSingle,
+
+                };
+
+                panel1.Controls.Add(l);
+            }
+
+            for (int i = 0; i < m + 1; ++i)
+            {
+                for (int j = 0; j < n + 1; ++j) {
+                    var l = new TextBox()
+                    {
+                        Location = new Point((i + 1) * w, (j+1)* s),
+                        Size = new Size(w, s),
+                        AutoSize = false,
+                        Text = data[i,j] + ""
+                    };
+
+                    panel1.Controls.Add(l);
+
+                }
+
             }
 
         }

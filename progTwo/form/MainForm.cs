@@ -19,6 +19,16 @@ namespace nm
         int nums = 0;
         DotForm info;
 
+        int chartCount = 0;
+
+        private double CurFunction(double u0,double v, double r, double l,double x)
+        {
+            return (v / r) * (1 - Math.Exp((-r / l) * x)) + u0 * Math.Exp((-r / l) * x);
+        }
+
+        double minDot;
+        double maxDot;
+
         public MainForm()
         {
             InitializeComponent();
@@ -26,126 +36,213 @@ namespace nm
             this.Shown += MainForm_Shown;
         }
 
+        private void correctAxis(double x, double miny, double maxy, double minx = 0)
+        {
+            try
+            {
+                var tmp = !string.IsNullOrWhiteSpace(minXTB.Text) ? Convert.ToDouble(minXTB.Text.Replace('.', ',')) : minx;
+                mainChart.ChartAreas[0].AxisX.Minimum = tmp;
+
+                tmp = !string.IsNullOrWhiteSpace(maxXTB.Text) ? Convert.ToDouble(maxXTB.Text.Replace('.', ',')) : x;
+                mainChart.ChartAreas[0].AxisX.Maximum = tmp;
+
+                if (!string.IsNullOrWhiteSpace(minYTB.Text))
+                {
+                    mainChart.ChartAreas[0].AxisY.Minimum = Convert.ToDouble(minYTB.Text.Replace('.', ','));
+                }
+
+                if (!string.IsNullOrWhiteSpace(minYTB.Text))
+                {
+                    mainChart.ChartAreas[0].AxisY.Maximum = Convert.ToDouble(maxYTB.Text.Replace('.', ','));
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(this,ex.Message,"Неправильный ввод", MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+        }
+
         private void MainForm_Shown(object sender, EventArgs e)
         {
-            mainChart.ChartAreas[0].AxisX.Minimum = 0;
-            mainChart.ChartAreas[0].AxisX.Maximum = 5;
+            correctAxis(10,0,5);
 
-            mainChart.ChartAreas[0].AxisX.Title = "x (длина)";
+            mainChart.ChartAreas[0].AxisX.Title = "x";
+            mainChart.ChartAreas[0].AxisY.Title = "u";
 
-            mainChart.ChartAreas[0].AxisY.Minimum = -5;
-            mainChart.ChartAreas[0].AxisY.Maximum = 5;
-
-            mainChart.ChartAreas[0].AxisY.Title = "u (изгиб)";
-
-            mainChart.Legends.Clear();
             mainChart.Series.Clear();
-            // Добавляем новый график
-            var ser = mainChart.Series.Add("Diff");
-            ser.ChartType = SeriesChartType.Line;
-            ser.Color = Color.FromArgb(255, Color.Red);
-            ser.BorderWidth = 1;
-
-            var real = mainChart.Series.Add("Real");
-            real.ChartType = SeriesChartType.Line;
-            real.Color = Color.FromArgb(100,Color.Blue);
-            real.BorderWidth = 2;
-
-            chart1.Series.Clear();
-            chart1.Legends.Clear();
-
-            var sh = chart1.Series.Add("h");
-            sh.ChartType = SeriesChartType.Line;
-
-            ser.Points.AddXY(0, 0);
-            ser.Points.AddXY(10, 10);
-
-            chart1.ChartAreas[0].AxisX.Minimum = 0;
-            chart1.ChartAreas[0].AxisX.Title = "Шаги";
-
         }
 
-        private void runButton_Click(object sender, EventArgs e)
+        Thread super;
+        bool sRun = false;
+
+        private void rButton1_Click(object sender, EventArgs e)
         {
-            double l = Convert.ToDouble(lTextBox.Text.Replace('.',','));
-            double p = Convert.ToDouble(pTextBox.Text.Replace('.', ','));
-            double ei = Convert.ToDouble(eiTextBox.Text.Replace('.', ','));
-            double x0 = 0;
-            double h = Convert.ToDouble(hTextBox.Text.Replace('.', ','));
+            ++chartCount;
+            string chartName = "Численное решение №" + chartCount;
+            var settings = mainChart.Series.Add(chartName);
+            settings.ChartType = SeriesChartType.Line;
 
-            Method m = new Method(                
-                (x, u1, u2) => ((1 / l) + -x * (1 / (l * l))) * p * l * l / (ei),
-                (x, u1, u2) => u1,
-                0 ,0 , 0, h, 0,false);
-
-
-            mainChart.Series["Diff"].Points.Clear();
-            mainChart.Series["Real"].Points.Clear();
-            chart1.Series["h"].Points.Clear();
-
-            ++nums;
-            info = new DotForm();
-            info.label1.Text = "Запуск номер " + nums;
-            info.param.Text = $"L: {l}, P: {p}, EI: {ei}, H: {h}";
-
-            int i = 0;
-            double sum = 0;
-            MDot d = null;
-            while (sum < l)
+            if (sRun)
             {
-                double step = m.Step;
-                d = m.nextStep(out double contr, out double len);
-                if (Math.Abs(d.U2) < 1e-8)
-                    d.U2 = 0;
-                if (Math.Abs(d.U2) > 10e+20)
-                    break;
-                if (Math.Abs(d.X) < 1e-8)
-                    d.X = 0;
-                if (Math.Abs(d.X) > 10e+20)
-                    break;
-                mainChart.Series["Diff"].Points.AddXY(d.X,d.U2);
-                chart1.Series["h"].Points.AddXY(i,step);
-
-                Console.WriteLine(d.X + " " +d.U2);
-
-                info.dataGridView1.Rows.Add(i + "",d.X, step, d.U2, contr, d.U2 - contr);
-                ++i;
-                sum += len;
+                sRun = false;
+                super.Abort();
+                rButton1.Text = "запуск";
+                return;
             }
 
-            mainChart.Series["Real"].Points.AddXY(d.X, d.U2);
-            mainChart.Series["Real"].Points.AddXY(d.X, d.U2 + p / 2);
-            mainChart.Series["Real"].Points.AddXY(d.X + 0.05, d.U2 + p / 2 - (p / 2) / Math.Abs(p / 2) * 0.1);
-            mainChart.Series["Real"].Points.AddXY(d.X - 0.05, d.U2 + p / 2 - (p / 2) / Math.Abs(p / 2) * 0.1);
-            mainChart.Series["Real"].Points.AddXY(d.X, d.U2 + p / 2);
+            sRun = true;
+            rButton1.Text = "cтоп";
+
+            mainChart.ChartAreas[0].AxisX.Title = "x";
+            mainChart.ChartAreas[0].AxisY.Title = "u";
+
+            super = new Thread(() =>
+            {
+                double l = Convert.ToDouble(lTextBox1.Text.Replace('.', ','));
+                double h = Convert.ToDouble(hTextBox1.Text.Replace('.', ','));
+                int n = Convert.ToInt32(nTextBox1.Text.Replace('.', ','));
+                double eps = Convert.ToDouble(epsTextBox1.Text.Replace('.', ','));
+
+                double el = Convert.ToDouble(elTextBox1.Text.Replace('.', ','));
+                double pp = Convert.ToDouble(pTextBox1.Text.Replace('.', ','));
+
+                bool ctrl = !checkBox1.Checked;
+
+                Method m = new Method(
+                (x, u1, u2) => ((1 / l) + -x * (1 / (l * l))) * pp * l * l / (el),
+                (x, u1, u2) => u1,
+                0, 0, 0, h, eps, ctrl);
+
+                mainChart.Invoke(new Action(() => {
+                    mainChart.Series[chartName].Points.Clear();
+                    //chart1.Series["h"].Points.Clear();
+                }));
+
+                ++nums;
+                info = new DotForm();
+                info.label1.Text = "Запуск номер " + nums + ";";
+                
 
 
-            info.Show();
+                minDot = double.MaxValue;
+                maxDot = double.MinValue;
 
-            // foreach (var x in Enumerable.Range(0, 1000).Select(u => (double)u / 100))
-            // {
-            //     var y = (v / r) * (1 - Math.Exp((-r / l) * x)) + i0 * Math.Exp((-r / l) * x);
-            //     mainChart.Series["Real"].Points.AddXY(x, y);
-            // }
+                double minStep = double.MaxValue;
+                double mns = 0;
+
+                double maxStep = double.MinValue;
+                double mxs = 0;
+
+                int count = 0;
+                MDot p = null;
+
+                double maxOLP = 0;
+                double sum = 0;
+
+                MDot prev = null;
+                foreach (var i in Enumerable.Range(0, n))
+                {
+                    double step = m.Step;
+                    p = m.nextStep(out double contr, out double olp, out double len);
+                    if (Math.Abs(p.U2) < 1e-8)
+                        p.U2 = 0;
+                    if (Math.Abs(p.U2) > 10e+20)
+                        break;
+                    if (Math.Abs(p.X) < 1e-8)
+                        p.X = 0;
+                    if (Math.Abs(p.X) > 10e+20)
+                        break;
+
+                    sum += len;
+
+                    if(sum > l)
+                    {
+                        var diff = sum - l ;
+                        var proc = diff / len;
+
+                        var cStep = step * (proc);
+                        var up = (p.U2 - prev.U2)*(proc);
+
+                        p.X -= cStep;
+                        p.U2 -= up;
+                    }
+
+                    mainChart.Invoke(new Action(() =>
+                    {
+                        mainChart.Series[chartName].Points.AddXY(p.X, p.U2);
+                        //chart1.Series["h"].Points.AddXY(i, step);
+                    }));
+
+                    if (sum >= l)
+                        break;
+
+                    Console.WriteLine(p.X + " " + p.U2);
+
+                    mainChart.Invoke(new Action(() =>
+                    {
+                        info.dataGridView1.Rows.Add(i + "", p.U2, contr, olp, step, m.C1, m.C2);
+                    }));
+
+                    if (minDot > p.U2)
+                        minDot = p.U2;
+
+                    if (maxDot < p.U2)
+                        maxDot = p.U2;
+
+                    if (maxOLP < Math.Abs(olp))
+                        maxOLP = Math.Abs(olp);
+
+                    if (step > maxStep)
+                    {
+                        maxStep = step;
+                        mxs = p.X;
+                    }
+
+                    if(step < minStep)
+                    {
+                        minStep = step;
+                        mns = p.X;
+                    }
+
+                    count++;
+                    prev = p;
+
+                }
+
+                mainChart.Invoke(new Action(() =>
+                {
+                    correctAxis(10, minDot - 0.01, maxDot + 0.01);
+                    info.param.Text = $"Номер шага = : {count},\nМаксимальная оценка локальной погрешности (ОЛП): {maxOLP}, \nКоличество делений шага: {m.C1}, \nКоличество удвоений шага: {m.C2}, \nМаксимальный шаг: {maxStep}, достигнут в точке: {mxs}, \nМинимальный шаг: {minStep} , достигнут в точке: {mns}";
+
+                    info.Show();
+
+                    sRun = false;
+                    rButton1.Text = "запуск";
+                }));
+
+                
+            });
+
+            super.Start();
         }
 
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    double l = Convert.ToDouble(lTextBox.Text.Replace('.', ','));
-        //    double r = Convert.ToDouble(pTextBox.Text.Replace('.', ','));
-        //    double v = Convert.ToDouble(eiTextBox.Text.Replace('.', ','));
-        //    double i0 = 0;
-        //    double h = Convert.ToDouble(hTextBox.Text.Replace('.', ','));
-        //    int n = Convert.ToInt32(nTextBox.Text.Replace('.', ','));
+        bool isUp = false;
 
-        //    mainChart.Series["Real"].Points.Clear();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            correctAxis(10, minDot - 0.01, maxDot + 0.01);
+        }
 
-        //    foreach (var x in Enumerable.Range(0, 1000).Select(u => (double)u / 100))
-        //    {
-        //       var y = (v / r) * (1 - Math.Exp((-r / l) * x)) + i0 * Math.Exp((-r / l) * x);
-        //       mainChart.Series["Real"].Points.AddXY(x, y);
-        //    }
-        //}
+        private void button2_Click(object sender, EventArgs e)
+        {
+            mainChart.Series.Clear();
+            chartCount = 0;
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
   
 }
