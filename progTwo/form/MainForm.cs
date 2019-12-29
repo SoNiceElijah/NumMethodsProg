@@ -144,27 +144,33 @@ namespace nm
                 {
                     double step = m.Step;
                     p = m.nextStep(out double contr, out double olp, out double len);
-                    if (Math.Abs(p.U2) < 1e-8)
+                    if (Math.Abs(p.U2) < 1e-20)
                         p.U2 = 0;
                     if (Math.Abs(p.U2) > 10e+20)
                         break;
-                    if (Math.Abs(p.X) < 1e-8)
+                    if (Math.Abs(p.X) < 1e-20)
                         p.X = 0;
                     if (Math.Abs(p.X) > 10e+20)
                         break;
 
                     sum += len;
 
-                    if(sum > l)
+                    bool needToBreak = false;
+                    if (checkBox2.Checked)
                     {
-                        var diff = sum - l ;
-                        var proc = diff / len;
+                        if (sum > l)
+                        {
+                            var diff = sum - l;
+                            var proc = diff / len;
 
-                        var cStep = step * (proc);
-                        var up = (p.U2 - prev.U2)*(proc);
+                            var cStep = step * (proc);
+                            var up = (p.U2 - prev.U2) * (proc);
 
-                        p.X -= cStep;
-                        p.U2 -= up;
+                            p.X -= cStep;
+                            p.U2 -= up;
+
+                            needToBreak = true; ;
+                        }
                     }
 
                     mainChart.Invoke(new Action(() =>
@@ -173,7 +179,12 @@ namespace nm
                         //chart1.Series["h"].Points.AddXY(i, step);
                     }));
 
-                    if (sum >= l)
+                    if (!checkBox2.Checked)
+                    {
+                        if (p.X > 5)
+                            break;
+                    }
+                    else if (needToBreak)
                         break;
 
                     Console.WriteLine(p.X + " " + p.U2);

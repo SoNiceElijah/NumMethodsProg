@@ -117,14 +117,17 @@ namespace core
             param = 0;
             if (control)
             {
-                double s = (mes.U2 - next.U2) / (15);
-                if (Math.Abs(s) >= eps)
+                double s1 = (mes.U2 - next.U2) / (15);
+                double s2 = (mes.U1 - next.U1) / (15);
+                
+
+                if (Math.Abs(s2) >= eps || Math.Abs(s1) >= eps)
                 {
                     C1++;
                     step /= 2;
                     return nextStep(out upV, out param, out len);
                 }
-                if (Math.Abs(s) <= eps / 15)
+                if (Math.Abs(s2) <= eps / 15 || Math.Abs(s1) <= eps / 15)
                 {
                     if (step <= 1e+100)
                     {
@@ -133,10 +136,14 @@ namespace core
                     }
                 }
 
-                double e = 15 * s;
-                param = e;
+                double e1 = 16 * s1;
+                double e2 = 16 * s2;
 
-                next.U2 = next.U2 + e;
+                // next.U1 = next.U1 + e2;
+                // next.U2 = next.U2 + e1;
+
+
+                param = e1;
             }
             point = next;
 
