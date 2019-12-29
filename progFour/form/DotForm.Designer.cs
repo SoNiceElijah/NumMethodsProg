@@ -37,7 +37,7 @@
             this.panel1.AutoScroll = true;
             this.panel1.Location = new System.Drawing.Point(12, 49);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(426, 367);
+            this.panel1.Size = new System.Drawing.Size(654, 367);
             this.panel1.TabIndex = 0;
             // 
             // Info
@@ -53,7 +53,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(448, 430);
+            this.ClientSize = new System.Drawing.Size(678, 430);
             this.Controls.Add(this.Info);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
