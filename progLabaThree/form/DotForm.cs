@@ -76,15 +76,15 @@ namespace nm
                 panel1.Controls.Add(l);
             }
 
-            for (int i = 0; i < m + 1; ++i)
+            for (int i = 0; i < n + 1; ++i)
             {
-                for (int j = 0; j < n + 1; ++j) {
+                for (int j = 0; j < m + 1; ++j) {
                     var l = new TextBox()
                     {
                         Location = new Point((i + 1) * w, (j+1)* s),
                         Size = new Size(w, s),
                         AutoSize = false,
-                        Text = data[i,j] + ""
+                        Text = data[i,m-j] + ""
                     };
 
                     panel1.Controls.Add(l);

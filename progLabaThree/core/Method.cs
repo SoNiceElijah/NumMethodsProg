@@ -52,7 +52,7 @@ namespace core
         }
 
         //Метод, который реализует метод
-        public double[] Calculate(double eps, double max, out double num, out double diff)
+        public double[] Calculate(double eps, double max, out double num, out double diff, out double R)
         {
 
             num = 0;
@@ -122,6 +122,19 @@ namespace core
             }
 
             diff = mEps;
+
+            double mZ = 0;
+            for (int i = 0; i < n + 1; ++i)
+            {
+                for (int j = 0; j < m + 1; ++j)
+                {
+                    double z = Math.Abs(M1(a + i * h, c + j * k) - v[i, j]);
+                    if (mZ < z)
+                        mZ = z;
+                }
+            }
+
+            R = mZ;
 
 
 

@@ -35,28 +35,28 @@ namespace nm
 
             List<Method.Func> param1 = new List<Method.Func>();
 
-            param1.Add((x, y) => 1 - x * x - y * y);
-            param1.Add((x, y) => 1 - x * x - y * y);
-            param1.Add((x, y) => 1 - x * x - y * y);
-            param1.Add((x, y) => 1 - x * x - y * y);
+            param1.Add((x, y) => Math.Exp(x * x - y * y));
+            param1.Add((x, y) => Math.Exp(x * x - y * y));
+            param1.Add((x, y) => Math.Exp(x * x - y * y));
+            param1.Add((x, y) => Math.Exp(x * x - y * y));
 
 
-            double[] param2 = { -1, 1, -1, 1 };
+            double[] param2 = { 1, 2, 1, 2 };
 
             Method meth = new Method(
-                (x,y) => 4,
+                (x,y) => (-1)*Math.Exp(x * x - y * y)*((4*x*x + 2)+(4*y*y - 2)),
                 param1.ToArray(),
                 param2,
                 n,m
             );
 
 
-            var result = meth.Calculate(eps, max, out double num, out double diff);
+            var result = meth.Calculate(eps, max, out double num, out double diff, out double R);
 
             Console.WriteLine(num + " " + diff);
 
             info = new DotForm(param2,n, m, meth.Result);
-            info.Info.Text = $"Эпсилон = {diff}, Количество итераций = {num} ";
+            info.Info.Text = $"Достигнутая точность = {diff}, Количество итераций = {num}, Общая погрешность = {R} ";
 
             info.Show();
 
