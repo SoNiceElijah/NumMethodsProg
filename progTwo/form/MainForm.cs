@@ -191,7 +191,7 @@ namespace nm
 
                     mainChart.Invoke(new Action(() =>
                     {
-                        info.dataGridView1.Rows.Add(i + "", p.U2, contr, olp, step, m.C1, m.C2);
+                        info.dataGridView1.Rows.Add(i + "", p.X,p.U2, contr, olp, step, m.C1, m.C2);
                     }));
 
                     if (minDot > p.U2)

@@ -18,6 +18,7 @@ namespace nm
 
 
             this.dataGridView1.Columns.Add("i", "i");
+            this.dataGridView1.Columns.Add("Xi", "Xi");
             this.dataGridView1.Columns.Add("Vi", "Vi");
             this.dataGridView1.Columns.Add("V2i", "V2i");
             this.dataGridView1.Columns.Add("ОЛП", "ОЛП");
