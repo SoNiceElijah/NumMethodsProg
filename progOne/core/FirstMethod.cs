@@ -25,7 +25,7 @@ namespace core
         public int C2 { private set; get; } = 0;
 
         bool control;
-        public double Step { get => step; }
+        public double Step { get => step; set { step = value; } }
         
         /// <summary>
         /// Создает объект для работы с методом РК(4)

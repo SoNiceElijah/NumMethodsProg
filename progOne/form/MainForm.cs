@@ -108,6 +108,8 @@ namespace nm
                 double l = Convert.ToDouble(lTextBox1.Text.Replace('.', ','));
                 double v = Convert.ToDouble(vTextBox1.Text.Replace('.', ','));
 
+                double param = Convert.ToDouble(paramTextBox.Text.Replace('.', ','));
+
                 bool ctrl = !checkBox1.Checked;
 
                 FirstMethod m = new FirstMethod((x, u) => (-r * u / l) + (v/l), 0, u0, h, eps, ctrl);
@@ -163,7 +165,7 @@ namespace nm
 
                     mainChart.Invoke(new Action(() =>
                     {
-                        info.dataGridView1.Rows.Add(i + "", p.Y, contr, olp, step, m.C1, m.C2, CurFunction(u0, v, r, l, p.X), Math.Abs(CurFunction(u0, v, r, l, p.X) - p.Y));
+                        info.dataGridView1.Rows.Add(i + "",p.X, p.Y, contr, olp, step, m.C1, m.C2, CurFunction(u0, v, r, l, p.X), Math.Abs(CurFunction(u0, v, r, l, p.X) - p.Y));
                     }));
 
                     if (minDot > p.Y)
@@ -172,8 +174,17 @@ namespace nm
                     if (maxDot < p.Y)
                         maxDot = p.Y;
 
-                    if (p.X > rb)
+                    if(p.X>= rb - param && p.X <= rb)
                         break;
+
+                    if (p.X + m.Step > rb)
+                    {
+                        while(p.X + m.Step > rb)
+                        {
+                            m.Step /= 2;
+                        }
+
+                    }
 
                     if (maxOLP < Math.Abs(olp))
                         maxOLP = Math.Abs(olp);
