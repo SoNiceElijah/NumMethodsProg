@@ -52,7 +52,7 @@ namespace core
         }
 
         //Метод, который реализует метод
-        public double[] Calculate(double eps, double max, out double num, out double diff, out double R)
+        public double[] Calculate(double eps, double max, out double num, out double diff, out double Z, out double R)
         {
 
             num = 0;
@@ -134,7 +134,22 @@ namespace core
                 }
             }
 
-            R = mZ;
+            Z = mZ;
+
+            double mR = 0;
+            for (int i = 0; i < n + 1; ++i)
+            {
+                for (int j = 0; j < m + 1; ++j)
+                {
+                    double r = -(h2 * (M1(a + (i + 1) * (h), c + j * k) + (M1(a + (i - 1) * (h), c + j * k))) + k2 * (M1(a + i * h, c + (j + 1) * k) + M1(a + i * h, c + (j - 1) * k)));
+                    r = r + F(a + i * h, c + j * k);
+                    r = r - a2 * M1(a + i * h, c + (j) * k);
+                    if (mR < Math.Abs(r))
+                        mR = Math.Abs(r);
+                }
+            }
+
+            R = mR;
 
 
 

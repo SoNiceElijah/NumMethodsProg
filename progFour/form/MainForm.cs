@@ -51,12 +51,12 @@ namespace nm
             );
 
 
-            var result = meth.Calculate(eps, max, out double num, out double diff, out double R);
+            var result = meth.Calculate(eps, max, out double num, out double diff, out double Z, out double R);
 
             Console.WriteLine(num + " " + diff);
 
             info = new DotForm(param2,n, m, meth.Result);
-            info.Info.Text = $"Достигнутая точность = {diff}, Количество итераций = {num}, Общая погрешность = {R} ";
+            info.Info.Text = $"Достигнутая точность = {diff}, Количество итераций = {num}, \nНевязка системы = {R}, Общая погрешность = {Z} ";
 
             info.Show();
 
